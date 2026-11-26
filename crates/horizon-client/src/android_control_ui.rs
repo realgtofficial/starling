@@ -7634,7 +7634,7 @@ pub fn touch_hud_editor(
                                         if let Some(btn) = tc.settings.custom_buttons.get_mut(idx) {
                                             btn.custom_label.clear();
                                         }
-                                        ed.editing_label = true;
+                                        ed.key_picker = false; ed.picker_step = crate::android_controls::PickerStep::None; ed.editing_label = true;
                                         ed.keyboard_request = true;
                                         ed.status_msg = Some("Type the label, then press Enter. Empty = default name.".into());
                                     }
