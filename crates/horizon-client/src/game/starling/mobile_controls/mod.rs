@@ -661,8 +661,8 @@ impl Game<'_> {
         match out {
             Output::Text(t) => {
                 for ch in t.chars() {
-                    let ok = ch.is_alphanumeric() || ch.is_ascii_graphic() || ch == ' ';
-                    if ok && btn.custom_label.chars().count() < 12 {
+                    let ok = !ch.is_control();
+                    if ok && btn.custom_label.chars().count() < 16 {
                         btn.custom_label.push(ch);
                     }
                 }
@@ -730,6 +730,15 @@ impl Game<'_> {
             self.android_show_keyboard();
         }
         for out in mobile_platform::poll() {
+            let label_edit = self
+    .mobile
+    .controls
+    .editor
+    .as_ref()
+    .is_some_and(|e| e.editing_label);
+if label_edit && self.android_preset_typing(&out) {
+    continue;
+}
             let captured = if self.mobile.controls.editor.is_some() {
                 match &out {
                     Output::Text(t) => self.mobile.controls.capture_custom_text(t),
